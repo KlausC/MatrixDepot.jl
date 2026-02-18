@@ -206,3 +206,9 @@ io = IOBuffer()
 @test length(mdlist(hasdata(:A & (:b | :x)))) == 2
 
 end
+
+# issue 131
+@testset "parse($str)" for str in ("-0.0010831521544791237\n", "-0.00108e100\n")
+    c = MatrixDepot.getbytes(IOBuffer(str))
+    @test MatrixDepot.parsenext(Float64, c, 1)[2] == parse(Float64, str)
+end
