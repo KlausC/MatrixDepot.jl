@@ -1,6 +1,7 @@
 name = "MatrixDepot"
 uuid = "b51810bb-c9f3-55da-ae3c-350fc1fbce05"
-version = "1.0.14"
+
+version = "1.0.15"
 
 [deps]
 ChannelBuffers = "79a69506-cdd1-4876-b8e5-7af85e53af4f"
@@ -15,8 +16,10 @@ SparseArrays = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
 
 [compat]
 ChannelBuffers = "0.3.1, 0.4"
+
 DataFrames = "0.20 - 0.22, 1"
 MAT = "0.7 - 0.11"
+
 Scratch = "1"
 julia = "1"
 

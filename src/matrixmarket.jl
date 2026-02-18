@@ -438,14 +438,18 @@ function parsenext(T::Type{<:AbstractFloat}, v::Vector{UInt8}, p1::Int)
         daccu += 10^df * iaccu
     end
     f = if di <= 16 && daccu < UInt(1)<<53
-        if 0 <= eaccu < 23
+        if eaccu == 0
+            T(daccu)
+        elseif 0 < eaccu < 23
             T(daccu) * exp10(eaccu)
         elseif 0 < -eaccu < 23
             T(daccu) / exp10(-eaccu)
         else
+            sig = 1
             parse(T, String(view(v, p1:i-1)))
         end
     else
+        sig = 1
         parse(T, String(view(v, p1:i-1)))
     end
     i, (sig < 0 ? -f : f)
