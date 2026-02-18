@@ -4,6 +4,7 @@
 
 using Base.Filesystem
 using ChannelBuffers
+using JLD2
 
 # collect the keys from local database (MATRIXDICT or USERMATRIXDICT)
 # provide a numerical id counting from 1 for either database.
@@ -19,15 +20,17 @@ function insertlocal(db::MatrixDatabase, T::Type{<:GeneratedMatrixData},
     cnt
 end
 
-dbpath(db::MatrixDatabase) = abspath(data_dir(), "db.data")
+dbpath(db::MatrixDatabase) = abspath(data_dir(), "db.jld2")
+const DBTAG = "db"
 function readdb(db::MatrixDatabase)
     @info("reading database")
     cachedb = dbpath(db)
-    open(cachedb, "r") do io
-        dbx = deserialize(io)
+    jldopen(cachedb, "r") do io
+        dbx = read(io, DBTAG)
         merge!(db.data, dbx.data)
         merge!(db.aliases, dbx.aliases)
     end
+    db
 end
 
 function writedb(db::MatrixDatabase)
@@ -36,9 +39,10 @@ function writedb(db::MatrixDatabase)
     dbx_data = filter(((key, val),) -> !(val isa GeneratedMatrixData{:U}), db.data)
     dbx_aliases = filter(((_, key),) -> !(db.data[key] isa GeneratedMatrixData{:U}), db.aliases)
     dbx = MatrixDatabase(dbx_data, dbx_aliases)
-    open(cachedb, "w") do io
-        serialize(io, dbx)
+    jldopen(cachedb, "w") do io
+        write(io, DBTAG, dbx)
     end
+    nothing
 end
 
 """
