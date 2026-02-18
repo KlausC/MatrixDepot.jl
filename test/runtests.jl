@@ -15,7 +15,7 @@ MatrixDepot.init()
 
 @testset "MatrixDepot.jl" begin
 
-#include("generators.jl")
+include("generators.jl")
 include("include_generator.jl")
 
 @testset "MatrixDepot simulate remote matrix tests" begin

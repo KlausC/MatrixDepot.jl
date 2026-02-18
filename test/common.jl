@@ -199,7 +199,8 @@ io = IOBuffer()
 @test md.b isa AbstractMatrix
 @test_throws DataError md.x
 @test_throws DataError md.invalidname
-@test_throws ErrorException md.data.invalidname
+FieldMissing = VERSION < v"1.12" ? ErrorException : FieldError
+@test_throws FieldMissing md.data.invalidname
 @test md.dnz == md.data.header.nnz
 
 @test length(mdlist(keyword("graph" & ("butterfly" | "network")) & isloaded)) == 2
