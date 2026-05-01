@@ -68,7 +68,7 @@ Access is like
     see also: "logical" for logical combinations of all kinds of patterns.
 """
 module MatrixDepot
-using LinearAlgebra, SparseArrays, Serialization
+using LinearAlgebra, SparseArrays
 using Scratch
 import Base: show
 

@@ -1,6 +1,11 @@
+module TestGenerator
+using MatrixDepot
 import MatrixDepot: publish_user_generators, include_generator, Group, FunctionName
+using LinearAlgebra
 using Logging
+using Test
 
+export randsym
 "random symmetric matrix"
 function randsym(::Type{T}, n) where T
  A = zeros(T, n, n)
@@ -30,7 +35,8 @@ n = rand(1:8)
 n = rand(1:8)
 @test matrixdepot("randsym", n) !== nothing
 @test mdinfo("randsym") !== nothing
-@test mdinfo("randsym") == Base.Docs.doc(randsym)
+println(Docs.aliasof(randsym, typeof(randsym)).mod)
+@test mdinfo("randsym") == Docs.doc(randsym)
 @test "randsym" in MatrixDepot.mdlist(:random)
 @test "randsym" in MatrixDepot.mdlist(:symmetric)
 
@@ -42,3 +48,5 @@ deletegroup!(:testgroup)
 @test_throws ArgumentError mdlist(:testgroup)
 
 @test_throws ArgumentError include_generator(Group, :lkjasj, sin)
+
+end
