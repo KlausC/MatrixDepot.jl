@@ -88,7 +88,9 @@ const MATRIXCLASS = Dict(
                            "baart", "phillips", "gravity", "blur",
                            "spikes", "ursell", "parallax"],
 
-              :graph => ["erdrey", "gilbert", "smallworld"]
+              :graph => ["erdrey", "gilbert", "smallworld"],
+
+              :orthogonal => ["hadamard",]
 )
 
 
